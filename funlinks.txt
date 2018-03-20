@@ -1,0 +1,17 @@
+
+
+shows in python how to get secure tokens to do rest api command below
+https://community.esri.com/thread/186020-start-stop-map-service-arcpy
+
+how to delete a service via rest api
+https://developers.arcgis.com/rest/enterprise-administration/server/deleteservice.htm
+
+
+
+has an example of setting up tile LODs, etc
+see Modify SDDraft example 6
+http://desktop.arcgis.com/en/arcmap/10.3/analyze/arcpy-mapping/createmapsddraft.htm
+
+
+sample python for creating cache sets for specific areas
+https://community.esri.com/thread/63524#comment-295176

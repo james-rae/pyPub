@@ -1,0 +1,1 @@
+C:\Python27\python.exe C:\Git\pyPub\tilePub.py <folderpath> <sd file name> > C:\Git\pyPub\hoglog.txt
