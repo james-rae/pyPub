@@ -1,1 +1,1 @@
-C:\Python27\python.exe C:\Git\pyPub\tilePub.py <folderpath> <sd file name> > C:\Git\pyPub\hoglog.txt
+C:\Python27\ArcGIS10.4\python.exe C:\Git\pyPub\tilePub.py C:\Git\pyPub\data\ SeaIceFraction_2041_20yr_MAM_rcp85.sd > C:\Git\pyPub\hoglog.txt
