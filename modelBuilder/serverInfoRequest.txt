@@ -1,0 +1,4 @@
+http://cipgis.canadaeast.cloudapp.azure.com/arcgis/admin/services/pythonparty/Enhance.mapserver?f=pjson&token=<token here>
+
+
+https://cipgis.canadaeast.cloudapp.azure.com/arcgis/tokens/generateToken
