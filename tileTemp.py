@@ -28,30 +28,6 @@ def printLog(logs, msg):
 
 """
 
-# ############################################
-
-def publishSD(sdFolder, sd, connPath, serviceName, serverFolder, logs):
-
-    printLog(logs,"Publishing SD in: " + sdFolder)
-
-    sdPath = sdFolder + "/" + sd
-
-    # Execute UploadServiceDefinition.  This uploads the service definition
-    # and publishes the service.
-    arcpy.UploadServiceDefinition_server(sdPath, connPath, serviceName, "", "EXISTING", serverFolder)
-    printLog(logs, serviceName + " has been published")
-
-# ############################################
-
-"""Convert service to tile. Does everything we want except enable on-demand
-
-    Args:
-        connPath: Path to connection file that is used to connect to a GIS Server.
-        serviceName: Name of the service.
-        serverFolder: Name of the folder to publish in.
-        logs: log list holds all log items for current publication
-
-"""
 
 # ############################################
 
@@ -62,7 +38,7 @@ def convertToTile(connPath, serviceName, serverFolder, logs):
     printLog(logs,"Targeting this service for tile: " + serverPath)
 
     arcpy.CreateMapServerCache_server(serverPath, "C:\\arcgisserver\\directories\\arcgiscache", "NEW", "CUSTOM", "9", "96", "256 x 256", "", "-34655800 39310000", "145000000;85000000;50000000;30000000;17500000;10000000;6000000;3500000;2000000", "JPEG", "75", "COMPACT")
-    printLog(logs, serviceName + " has been tiled")
+    printLog(logs, "I Tiled a thing")
 
 # ############################################
 # Main Party
@@ -87,9 +63,6 @@ printLog(logs, sd)
 # step 1. check if service exists, delete it.
 
 # step 2. publish service
-# Todo will want service target name as proper var
-publishSD(sdfolder, sd, conn, "Enhance", serverFolder, logs)
+convertToTile(conn, "Enhance", serverFolder, logs)
 
 # step 3. turn service into tiles
-# Todo will want service target name as proper var
-convertToTile(conn, "Enhance", serverFolder, logs)

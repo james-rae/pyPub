@@ -1,0 +1,5 @@
+Fields in the column order
+
+folder name       the folder the service sits in on the arcgis server. e.g. SnowDepth
+service name      the name the service is published as on arcgis server
+sd name           name of the .sd file, including the extension

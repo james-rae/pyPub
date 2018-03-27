@@ -2,3 +2,4 @@ http://cipgis.canadaeast.cloudapp.azure.com/arcgis/admin/services/pythonparty/En
 
 
 https://cipgis.canadaeast.cloudapp.azure.com/arcgis/tokens/generateToken
+https://cipgis.canadaeast.cloudapp.azure.com/arcgis/admin/generateToken
