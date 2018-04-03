@@ -1,6 +1,8 @@
 import arcpy
 import httplib
 import urllib
+import ssl
+import json
 
 # ############################################
 #
@@ -60,7 +62,7 @@ def assertJsonSuccess(data):
 def getServiceResponse(serverName, serverPort, service, params, headers):
 
     #Connect to service
-    httpConn = httplib.HTTPConnection(serverName, serverPort)
+    httpConn = httplib.HTTPSConnection(serverName, serverPort, context=ssl._create_unverified_context())
     httpConn.request("POST", service, params, headers)
 
     #Read response
@@ -115,8 +117,10 @@ def getToken(username, password, serverName, serverPort):
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
 
     # TODO i think we can use getServiceResponse here.  same code, no?
-    #Connect to URL and post parameters
-    httpConn = httplib.HTTPConnection(serverName, serverPort)
+    # Connect to URL and post parameters
+    print serverName
+    print params
+    httpConn = httplib.HTTPSConnection(serverName, serverPort, context=ssl._create_unverified_context())
     httpConn.request("POST", tokenURL, params, headers)
 
     # Read response
@@ -153,9 +157,9 @@ def getToken(username, password, serverName, serverPort):
 
 # ############################################
 
-def enhanceTile(serverName, serviceName, serverFolder, user, password, logs):
+def enhanceTile(serverName, serviceName, serverFolder, username, password, logs):
 
-    serverPort = ''
+    serverPort = 443
 
     # Get a token to access ArcGIS REST API
     # todo chance so token is passed in, so we can re-use tokens
@@ -195,6 +199,8 @@ def enhanceTile(serverName, serviceName, serverFolder, user, password, logs):
 
 # ############################################
 
+print sys.version
+
 user = arcpy.GetParameterAsText(0)
 password = arcpy.GetParameterAsText(1)
 logs = []
@@ -207,11 +213,13 @@ serverFolder = "PythonParty"
 # TODO change to param?
 
 printLog(logs, "Start the party")
-printLog(logs, sd)
 
 # step 1. check if service exists, delete it.
 
 # step 2. publish service
-enhanceTile("https://cipgis.canadaeast.cloudapp.azure.com", "Enhance", serverFolder, user, password, logs)
+# note: url seems to need to be a dns. python is freaking if we use normal web address
+# "https://cipgis.canadaeast.cloudapp.azure.com"
+
+enhanceTile("52.235.40.173", "Enhance", serverFolder, user, password, logs)
 
 # step 3. turn service into tiles
