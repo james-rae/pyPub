@@ -118,28 +118,10 @@ def getToken(username, password, serverName, serverPort):
 
     # TODO i think we can use getServiceResponse here.  same code, no?
     # Connect to URL and post parameters
-    print serverName
-    print params
-    httpConn = httplib.HTTPSConnection(serverName, serverPort, context=ssl._create_unverified_context())
-    httpConn.request("POST", tokenURL, params, headers)
 
-    # Read response
-    response = httpConn.getresponse()
-    if (response.status != 200):
-        httpConn.close()
-        print "Error while fetching tokens from admin URL. Please check the URL and try again."
-        return
-    else:
-        data = response.read()
-        httpConn.close()
-
-        #Check that data returned is not an error object
-        if not assertJsonSuccess(data):
-            return
-
-        #Extract the token from it
-        token = json.loads(data)
-        return token['token']
+    token = getServiceResponse(serverName, serverPort, tokenURL, params, headers)
+    jtoken = json.loads(token)
+    return jtoken['token']
 
 # ############################################
 
