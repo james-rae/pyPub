@@ -3,6 +3,7 @@ import httplib
 import urllib
 import csv
 import json
+import ssl
 
 # HELLO
 # if looking to run this, go to bottom of file and check the global vars that are sitting there.
@@ -221,7 +222,37 @@ def onDemandTile(serverName, serverPort, serviceName, serverFolder, token):
     editServiceUrl = serviceUrl + "/edit"
     params = urllib.urlencode({'token': token, 'f': 'json', 'service': updatedServiceJson})
     getServiceResponse(serverName, serverPort, editServiceUrl, params, headers)
+    print serviceName + " has been set to on demand mode"
 
+# ############################################
+
+"""Delete a map service.
+
+    Args:
+
+        serverName: Domain of server to connect to.
+        serverPort: Port of server to connect to.
+        serviceName: Name of the service.
+        serverFolder: Name of the folder the service resides in.
+        token: ArcGIS server secure token to allow our edits.
+
+"""
+
+# ############################################
+
+def deleteService(serverName, serverPort, serviceName, serverFolder, token):
+
+    # This request only needs the token and the response formatting parameter
+    params = urllib.urlencode({'token': token, 'f': 'json'})
+    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+
+    folderPath = "/arcgis/admin/services/" + serverFolder
+
+    serviceUrl = folderPath + "/" + serviceName + ".MapServer/delete"
+
+    # get the admin json object for the service
+    serviceJson = getServiceResponse(serverName, serverPort, serviceUrl, params, headers)
+    print serviceName + " has been deleted"
 
 # ############################################
 # Main Party
@@ -231,13 +262,14 @@ def onDemandTile(serverName, serverPort, serviceName, serverFolder, token):
 # Operation flag    what thing we want the script to do. See vals below.
 # Server username   secret server user name. only required for DEL_SERVICE and ON_DEMAND operations
 # Server password   secret server password. only required for DEL_SERVICE and ON_DEMAND operations
+# CSV file path     absolute path to csv file that has which services to process.
 
 # flags for operation
-# DEL_TILE      - deletes tile info from a service. do prior to deleting service. prevents ghost errors.
-# DEL_SERVICE   - deletes a service from arcgis server
+# DEL_SERVICE   - deletes a service from arcgis server and any related tile files
 # PUB_SERVICE   - publishes a service and converts it to tile
 # ON_DEMAND     - enables on demand tiling
 
+# See data\csvSchema.txt for guide on how to format the csv file
 
 # ############################################
 
@@ -245,14 +277,12 @@ def onDemandTile(serverName, serverPort, serviceName, serverFolder, token):
 opFlag = arcpy.GetParameterAsText(0)
 user = arcpy.GetParameterAsText(1)
 password = arcpy.GetParameterAsText(2)
+targetFile = arcpy.GetParameterAsText(3)
 
 # some globals that i'm too lazy to pass in as command line params
 
 # location of connection file. should point to the target arcgis server
 connFile = "C:\\Users\\jamesr\\AppData\\Roaming\\Esri\\Desktop10.4\\ArcCatalog\\arcgis on cipgis.canadaeast.cloudapp.azure.com (publisher)"
-
-# csv file containing things to target for this command
-targetFile = "C:\\Git\\pyPub\\data\\target.csv"
 
 # path of folder containing the .sd files to publish
 sdFolder = "C:\\Git\\pyPub\\data\\"
@@ -282,14 +312,13 @@ with open(targetFile,'rb') as csvfile:
         serviceName = row[1]
         sdFileName = row[2]
 
-        if opFlag = 'DEL_SERVICE':
-            # TODO call delete service
-        if opFlag = 'DEL_TILE':
+        if opFlag == 'DEL_SERVICE':
             removeTiles(connFile, serviceName, folderName)
+            deleteService(rootUrl, port, serviceName, folderName, token)
 
-        if opFlag = 'PUB_SERVICE':
+        if opFlag == 'PUB_SERVICE':
             publishSD(sdFolder, sdFileName, connFile, serviceName, folderName)
             convertToTile(connFile, serviceName, folderName)
 
-        if opFlag = 'ON_DEMAND':
+        if opFlag == 'ON_DEMAND':
             onDemandTile(rootUrl, port, serviceName, folderName, token)
