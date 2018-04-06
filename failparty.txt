@@ -1,0 +1,44 @@
+
+script fail log:
+
+sico:
+
+failed attempting to publish 
+SeaIceConcentration_2021_20yr_SON_rcp26
+service exists but gives error page attempting to go to it.
+
+attempt to delete that service and publish it stand-alone
+ - no error.
+ - indicates server is being dumb
+
+
+
+wind:
+
+WindSpeed_2021_20yr_JJA_rcp26
+timeout error when turning map service into tile
+command appears to have worked (service is a tile) but python got timeout error
+
+
+sith:
+
+test with sleep commands
+
+no real difference due to sleep commands.
+
+SeaIceThickness_2021_20yr_JJA_rcp45
+sd publisher toolbox gives fail to create, but it appears to have been created
+
+
+----------
+
+ideas
+
+
+test that one file
+test another variable (see if it's a count)
+attempt sleep command in the loop
+
+look into python calling other pythong command lines (to avoid crash on error, better logging)
+
+ask esri why their server fails all the time

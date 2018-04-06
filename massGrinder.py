@@ -4,6 +4,7 @@ import urllib
 import csv
 import json
 import ssl
+import time
 
 # HELLO
 # if looking to run this, go to bottom of file and check the global vars that are sitting there.
@@ -128,7 +129,7 @@ def getToken(username, password, serverName, serverPort):
 
 def publishSD(sdFolder, sd, connPath, serviceName, serverFolder):
 
-    print "Publishing SD in: " + sdFolder
+    print "Publishing SD : " + sd
 
     sdPath = sdFolder + "/" + sd
 
@@ -285,7 +286,7 @@ targetFile = arcpy.GetParameterAsText(3)
 connFile = "C:\\Users\\jamesr\\AppData\\Roaming\\Esri\\Desktop10.4\\ArcCatalog\\arcgis on cipgis.canadaeast.cloudapp.azure.com (publisher)"
 
 # path of folder containing the .sd files to publish
-sdFolder = "C:\\Git\\pyPub\\data\\"
+sdFolder = "C:\\Git\\pyPub\\data\\sd\\"
 
 # url of the target arcgis server, and port (SSL port)
 # needs to be dns because dumb. this will fail: "https://cipgis.canadaeast.cloudapp.azure.com"
@@ -318,7 +319,9 @@ with open(targetFile,'rb') as csvfile:
 
         if opFlag == 'PUB_SERVICE':
             publishSD(sdFolder, sdFileName, connFile, serviceName, folderName)
+            # time.sleep(20)
             convertToTile(connFile, serviceName, folderName)
+            # time.sleep(120)
 
         if opFlag == 'ON_DEMAND':
             onDemandTile(rootUrl, port, serviceName, folderName, token)
