@@ -5,6 +5,7 @@ import csv
 import json
 import ssl
 import time
+from datetime import datetime
 
 # HELLO
 # if looking to run this, go to bottom of file and check the global vars that are sitting there.
@@ -155,7 +156,7 @@ def convertToTile(connPath, serviceName, serverFolder):
 
     serverPath = connPath + "\\" + serverFolder + "\\" + serviceName + ".MapServer"
 
-    print "Targeting this service for tile: " + serverPath
+    print "Targeting this service for tile: " + serviceName
 
     arcpy.CreateMapServerCache_server(serverPath, "C:\\arcgisserver\\directories\\arcgiscache", "NEW", "CUSTOM", "9", "96", "256 x 256", "", "-34655800 39310000", "145000000;85000000;50000000;30000000;17500000;10000000;6000000;3500000;2000000", "JPEG", "75", "COMPACT")
     print serviceName + " has been tiled"
@@ -177,7 +178,7 @@ def removeTiles(connPath, serviceName, serverFolder):
 
     serverPath = connPath + "\\" + serverFolder + "\\" + serviceName + ".MapServer"
 
-    print "Targeting this service for tile removal: " + serverPath
+    print "Targeting this service for tile removal: " + serviceName
 
     arcpy.DeleteMapServerCache_server(serverPath, 2)
     print serviceName + " has had tiles removed"
@@ -266,8 +267,10 @@ def deleteService(serverName, serverPort, serviceName, serverFolder, token):
 # CSV file path     absolute path to csv file that has which services to process.
 
 # flags for operation
-# DEL_SERVICE   - deletes a service from arcgis server and any related tile files
+# DEL_FULL   - deletes a service from arcgis server and any related tile files
+# DEL_NOTILE   - deletes a service from arcgis server
 # PUB_SERVICE   - publishes a service and converts it to tile
+# TILE_SERVICE  - just convert a service to tile
 # ON_DEMAND     - enables on demand tiling
 
 # See data\csvSchema.txt for guide on how to format the csv file
@@ -302,7 +305,7 @@ port = 443
 
 # pre-loop prep
 token = ''
-if opFlag in ['DEL_SERVICE', 'ON_DEMAND']:
+if opFlag in ['DEL_FULL', 'DEL_NOTILE', 'ON_DEMAND']:
     token = getToken(user, password, rootUrl, port)
 
 # read our file of targets and get loopin
@@ -312,16 +315,37 @@ with open(targetFile,'rb') as csvfile:
         folderName = row[0]
         serviceName = row[1]
         sdFileName = row[2]
+        print "----"
 
-        if opFlag == 'DEL_SERVICE':
+        if opFlag == 'DEL_FULL':
+            print str(datetime.now())
             removeTiles(connFile, serviceName, folderName)
+            time.sleep(10)
+
+            print str(datetime.now())
             deleteService(rootUrl, port, serviceName, folderName, token)
+            time.sleep(10)
+
+        if opFlag == 'DEL_NOTILE':
+            print str(datetime.now())
+            deleteService(rootUrl, port, serviceName, folderName, token)
+            time.sleep(10)
 
         if opFlag == 'PUB_SERVICE':
+            print str(datetime.now())
             publishSD(sdFolder, sdFileName, connFile, serviceName, folderName)
-            # time.sleep(20)
+            time.sleep(10)
+
+            print str(datetime.now())
             convertToTile(connFile, serviceName, folderName)
-            # time.sleep(120)
+            time.sleep(10)
+
+        if opFlag == 'TILE_SERVICE':
+            print str(datetime.now())
+            convertToTile(connFile, serviceName, folderName)
+            time.sleep(10)
 
         if opFlag == 'ON_DEMAND':
+            print str(datetime.now())
             onDemandTile(rootUrl, port, serviceName, folderName, token)
+            time.sleep(10)
