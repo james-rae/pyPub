@@ -1,26 +1,118 @@
+=MID(B1,21,4)
+=MID(B1,31,3)
+=MID(B1,35,5)
 
 script fail log:
 
+=================
 sico:
 
+FRIDAY
+
+9 successes then....
 failed attempting to publish 
 SeaIceConcentration_2021_20yr_SON_rcp26
 service exists but gives error page attempting to go to it.
+
+MONDAY
 
 attempt to delete that service and publish it stand-alone
  - no error.
  - indicates server is being dumb
 
 
+1 success then....
+ SeaIceConcentration_2061_20yr_ANN_rcp26
+ - said failed on pub sd. but was actually successful
+ 
+ 
+4 in a row good
+4 in a row good
+4 in a row good
+4 in a row good
 
+1 success then....
+ SeaIceConcentration_2041_20yr_SON_rcp45
+ - said failed on pub sd. but was actually successful
+
+3 in a row good
+3 in a row good
+1 in a row good
+3 in a row good
+3 in a row good
+3 in a row good
+3 in a row good
+3 in a row good
+3 in a row good
+
+2 success then....
+ SeaIceConcentration_2081_20yr_MAM_rcp45
+ - said failed on pub sd. service exist but is broken
+
+1 success then....
+ SeaIceConcentration_2081_20yr_SON_rcp45
+ - said failed on pub sd. service exist but is broken 
+ 
+manual cleanup:
+SeaIceConcentration_2041_20yr_SON_rcp45
+SeaIceConcentration_2061_20yr_ANN_rcp26
+ -- cant delete via admin site
+ -- cant delete via python script
+
+SeaIceConcentration_2081_20yr_MAM_rcp45
+SeaIceConcentration_2081_20yr_SON_rcp45
+ -- deleted
+ 
+
+SeaIceConcentration_2081_20yr_MAM_rcp45
+ - published but failed when attempt to tile
+ - attempted to tile 2nd time. failed again "service failed to start"
+ - manually started in admin page 
+ 
+SeaIceConcentration_2081_20yr_SON_rcp45
+ - attempt to republish failed
+ - published sd manually via ArcCatalog -- donethanks 
+ - tile setup via python -- donethanks
+ 
+
+Setting on-demand mode:
+
+4 good in a row
+
+attempt 54 in a row
+- SeaIceConcentration_2021_20yr_ANN_rcp85 failed (not script fatal)
+- 26 success
+- 28th request had fatal error, script died ( SeaIceConcentration_2021_20yr_JJA_rcp85 )
+
+attempt at 13 in a row
+- 1 success
+- 2nd request had fatal error, script died ( SeaIceConcentration_2061_20yr_JJA_rcp85 )
+
+attempt at 11 in a row
+- 11 success
+
+attempt at 13 in a row
+- 13 success
+ 
+retry failed items above (3)
+- soft error service was ok ( SeaIceConcentration_2021_20yr_ANN_rcp85 )
+- the fatal error services still error
+  - however services are functional on GIS server
+ 
+================= 
 wind:
 
 WindSpeed_2021_20yr_JJA_rcp26
 timeout error when turning map service into tile
 command appears to have worked (service is a tile) but python got timeout error
 
+6 successes
 
+
+=================
 sith:
+
+FRIDAY
 
 test with sleep commands
 
@@ -28,6 +120,20 @@ no real difference due to sleep commands.
 
 SeaIceThickness_2021_20yr_JJA_rcp45
 sd publisher toolbox gives fail to create, but it appears to have been created
+- cant delete it
+
+7 successes
+
+MONDAY
+
+fail
+- SeaIceThickness_2021_20yr_DJF_rcp26
+- service created but junked. able to delete it
+- second attempt fails with different error, no service created
+- third attempt same problem. skip this for now (block 04)
+
+then attempt block 05; insta-fail as well
+
 
 
 ----------

@@ -12,6 +12,8 @@ from datetime import datetime
 # some might need adjustin'
 # also, be sure the service folders on the arcgis server are defined prior to script runnin'
 
+# this script is configured to be run locally on the server
+
 # ############################################
 #
 #  ASSER JSON SUCCESS FUNCTION
@@ -54,7 +56,7 @@ def assertJsonSuccess(data):
 def getServiceResponse(serverName, serverPort, service, params, headers):
 
     #Connect to service
-    httpConn = httplib.HTTPSConnection(serverName, serverPort, context=ssl._create_unverified_context())
+    httpConn = httplib.HTTPConnection(serverName, serverPort)
     httpConn.request("POST", service, params, headers)
 
     #Read response
@@ -286,15 +288,15 @@ targetFile = arcpy.GetParameterAsText(3)
 # some globals that i'm too lazy to pass in as command line params
 
 # location of connection file. should point to the target arcgis server
-connFile = "C:\\Users\\jamesr\\AppData\\Roaming\\Esri\\Desktop10.4\\ArcCatalog\\arcgis on cipgis.canadaeast.cloudapp.azure.com (publisher)"
+connFile = "X:\\maps\\misc\\pyPub\\arcgis_local_conn"
 
 # path of folder containing the .sd files to publish
-sdFolder = "C:\\Git\\pyPub\\data\\sd\\"
+sdFolder = "X:\\maps\\msd\\"
 
 # url of the target arcgis server, and port (SSL port)
 # needs to be dns because dumb. this will fail: "https://cipgis.canadaeast.cloudapp.azure.com"
-rootUrl = "52.235.40.173"
-port = 443
+rootUrl = "http://localhost"
+port = 80
 
 # TODO consider changing the flags.
 #      we could pair the pub and delete things together

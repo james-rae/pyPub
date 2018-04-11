@@ -23,3 +23,8 @@ https://enterprise.arcgis.com/en/server/10.4/administer/windows/scripting-arcgis
 might be useful if we need to do data registration
 https://enterprise.arcgis.com/en/server/10.4/administer/windows/scripting-service-publishing-with-arcpy.htm
 https://enterprise.arcgis.com/en/server/10.4/administer/windows/example-register-a-data-folder-at-publish-time.htm
+
+
+grinding cache using python
+https://enterprise.arcgis.com/en/server/10.4/publish-services/windows/automating-cache-creation-and-updates-with-geoprocessing.htm
+http://desktop.arcgis.com/en/arcmap/10.4/tools/server-toolbox/manage-map-server-cache-tiles.htm
