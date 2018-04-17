@@ -267,8 +267,9 @@ def deleteService(serverName, serverPort, serviceName, serverFolder, token):
 # CSV file path     absolute path to csv file that has which services to process.
 
 # flags for operation
-# DEL_FULL   - deletes a service from arcgis server and any related tile files
-# DEL_NOTILE   - deletes a service from arcgis server
+# DEL_FULL      - deletes a service from arcgis server and any related tile files
+# DEL_NOTILE    - deletes a service from arcgis server
+# DEL_TILE      - deletes related tile files from a service
 # PUB_SERVICE   - publishes a service and converts it to tile
 # TILE_SERVICE  - just convert a service to tile
 # ON_DEMAND     - enables on demand tiling
@@ -329,6 +330,11 @@ with open(targetFile,'rb') as csvfile:
         if opFlag == 'DEL_NOTILE':
             print str(datetime.now())
             deleteService(rootUrl, port, serviceName, folderName, token)
+            time.sleep(10)
+
+        if opFlag == 'DEL_TILE':
+            print str(datetime.now())
+            removeTiles(connFile, serviceName, folderName)
             time.sleep(10)
 
         if opFlag == 'PUB_SERVICE':
